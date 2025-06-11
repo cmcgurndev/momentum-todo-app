@@ -69,7 +69,37 @@ const listEntryPoint = document.querySelector('[data-list-entry]');
 
 function handleAddList(event) {
   const list = new List(crypto.randomUUID(), addListName.value || 'Untitled');
+  lists.push(list);
   addListName.value = '';
+  renderView();
 }
 
 addListBtn.addEventListener('click', handleAddList);
+
+function renderView() {
+  // Clear existing view
+  listEntryPoint.innerHTML = '';
+
+  lists.forEach((list) => {
+    const listContainer = document.createElement('div');
+    const heading = document.createElement('h2');
+    heading.textContent = list.getListName();
+    listContainer.appendChild(heading);
+    const addItemBtn = document.createElement('button');
+    addItemBtn.setAttribute('type', 'button');
+    addItemBtn.textContent = 'Add Todo';
+    listContainer.appendChild(addItemBtn);
+    const ul = document.createElement('ul');
+    ul.setAttribute('data-list-id', list.getId());
+    listContainer.appendChild(ul);
+
+    list.getList().forEach((listItem) => {
+      const li = document.createElement('li');
+      li.setAttribute('data-item-id', listItem.getId());
+      ul.appendChild(li);
+    });
+
+    listContainer.appendChild(ul);
+    listEntryPoint.appendChild(listContainer);
+  });
+}
