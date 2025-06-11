@@ -1,5 +1,7 @@
 'use strict';
 
+// Constructor functions
+
 function List(id, listName) {
   this.id = id;
   this.listName = listName;
@@ -57,3 +59,17 @@ Todo.prototype.setIsDone = function (isDone) {
 Todo.prototype.getIsDone = function () {
   return this.isDone;
 };
+
+// App main
+
+const lists = [];
+const addListName = document.querySelector('[data-list-name]');
+const addListBtn = document.querySelector('[data-add-list]');
+const listEntryPoint = document.querySelector('[data-list-entry]');
+
+function handleAddList(event) {
+  const list = new List(crypto.randomUUID(), addListName.value || 'Untitled');
+  addListName.value = '';
+}
+
+addListBtn.addEventListener('click', handleAddList);
